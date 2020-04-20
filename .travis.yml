@@ -1,0 +1,22 @@
+sudo: required
+services:
+    - docker
+
+before_install:
+    - docker build -t ashwinspg/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+    - docker run -e CI=true ashwinspg/react-test npm test
+
+after_success:
+    - docker build -t ashwinspg/multi-client ./client
+    - docker build -t ashwinspg/multi-nginx ./nginx
+    - docker build -t ashwinspg/multi-server ./server
+    - docker build -t ashwinspg/multi-worker ./worker
+    # Log in to the docker CLI
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+    # Take those images and push them to docker hub
+    - docker push ashwinspg/multi-client
+    - docker push ashwinspg/multi-nginx
+    - docker push ashwinspg/multi-server
+    - docker push ashwinspg/multi-worker

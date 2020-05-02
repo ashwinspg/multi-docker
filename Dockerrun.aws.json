@@ -1,0 +1,29 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "containerDefinitinos": [
+        {
+            "name": "client",
+            "image": "ashwinspg/multi-client",
+            "hostname": "client",
+            "essential": false
+        },
+        {
+            "name": "server",
+            "image": "ashwinspg/multi-server",
+            "hostname": "api",
+            "essential": false
+        },
+        {
+            "name": "worker",
+            "image": "ashwinspg/multi-worker",
+            "essential": false,
+            "portMappings": [
+                {
+                    "hostPort": 80,
+                    "containerPort": 80
+                }
+            ],
+            "links": ["client", "server"]
+        }
+    ]
+}

@@ -1,6 +1,6 @@
 {
     "AWSEBDockerrunVersion": 2,
-    "containerDefinitinos": [
+    "containerDefinitions": [
         {
             "name": "client",
             "image": "ashwinspg/multi-client",
@@ -16,7 +16,13 @@
         {
             "name": "worker",
             "image": "ashwinspg/multi-worker",
-            "essential": false,
+            "essential": false
+        },
+        {
+            "name": "nginx",
+            "image": "ashwinspg/multi-nginx",
+            "hostname": "nginx",
+            "essential": true,
             "portMappings": [
                 {
                     "hostPort": 80,
